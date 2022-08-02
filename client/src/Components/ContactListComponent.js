@@ -27,7 +27,7 @@ background: #f6f6f6;
 padding: 10px;
 `;
 
-const SearchContainer = styled.div`
+export const SearchContainer = styled.div`
 display: flex;
 flex-direction: row;
 background: white;
@@ -41,11 +41,12 @@ width: 28px;
 height: 28px;
 `;
 
-const SearchInput = styled.input`
+export const SearchInput = styled.input`
 width: 100%;
 outline: none;
 border: none;
 font-size: 15px;
+margin-left: 10px;
 `;
 
 const ContactItem = styled.div`
