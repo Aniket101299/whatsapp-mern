@@ -4,6 +4,7 @@ const Container = styled.div`
 display: flex;
 flex-direction: column;
 height: 100%;
+width: 100%;
 flex: 1.6;
 `;
 
@@ -20,13 +21,49 @@ height: 32px;
 border-radius: 50%;
 `;
 
+const SearchBox = styled.div`
+background: #f6f6f6;
+padding: 10px;
+`;
+
+const SearchContainer = styled.div`
+display: flex;
+flex-direction: row;
+background: white;
+border-radius: 16px;
+width: 100%;
+padding: 5px 10px;
+`;
+
+const SearchIcon = styled.img`
+width: 28px;
+height: 28px;
+`;
+
+const SearchInput = styled.input`
+width: 100%;
+outline: none;
+border: none;
+font-size: 15px;
+`;
+
 
 const ContactListComponent = () => {
-    return <Container>
+    return (
+    <Container>
         <ProfileInfoDiv>
             <ProfileImage src="/profile/men1.png"/>
         </ProfileInfoDiv>
-        'ContactListComponent'</Container>;
+
+        <SearchBox>
+          <SearchContainer>
+            <SearchIcon src="/search-icon.svg" />
+            <SearchInput placeholder="Search or start new chat"/>
+          </SearchContainer>
+        </SearchBox>
+
+        </Container>
+    );
 }
 
 export default ContactListComponent;
