@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import ContactListComponent from "./Components/ContactListComponent";
+import ConversationComponent from "./Components/ConversationComponent";
 
 const Container = styled.div`
 display: flex;
@@ -11,7 +13,8 @@ background: #f8f9fb;
 function App() {
   return (
     <Container>
-        <h1>Hello</h1>
+        <ContactListComponent/>
+        <ConversationComponent/>
     </Container>
   );
 }
