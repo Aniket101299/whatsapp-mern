@@ -36,6 +36,30 @@ const EmojiImage = styled.img`
 width: 28px;
 height: 28px;
 opacity: 0.4;
+cursor: pointer;
+`;
+
+const MessageContainer = styled.div`
+display: flex;
+flex-direction: column;
+height: 100%;
+background: #e5ddd6;
+overflow-y: auto;
+`;
+
+const MessageDiv = styled.div`
+justify-content: ${(props) => (props.isYours ? "flex-end" : "flex-start")};
+display: flex;
+margin: 5px 15px;
+`;
+
+const Message = styled.div`
+background: ${(props) => (props.isYours ? "#daf8cb" : "white")};
+max-width: 50%;
+color: #303030;
+padding: 8px 10px;
+font-size: 14px;
+border-radius: 4px;
 `;
 
 const ConversationComponent = () => {
@@ -46,13 +70,27 @@ const ConversationComponent = () => {
            Aniket Darekar
         </ProfileHeader>
 
+        <MessageContainer>
+          <MessageDiv isYours={true}>
+             <Message isYours={true}>hey man</Message>
+          </MessageDiv>
+          <MessageDiv>
+             <Message>hey man</Message>
+          </MessageDiv>
+          <MessageDiv>
+             <Message>hey man</Message>
+          </MessageDiv>
+          <MessageDiv>
+             <Message>hey man</Message>
+          </MessageDiv>
+        </MessageContainer>
+
         <ChatBox>
           <SearchContainer>
             <EmojiImage src="/emojiimg.svg" />
             <SearchInput placeholder="Type a message"/>
           </SearchContainer>
         </ChatBox>
-        'ConversationComponent'
         </Container>
     );
 }
