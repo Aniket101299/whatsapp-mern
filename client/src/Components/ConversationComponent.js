@@ -63,12 +63,15 @@ font-size: 14px;
 border-radius: 4px;
 `;
 
-const ConversationComponent = () => {
+const ConversationComponent = (props) => {
+
+    const { selectedChat } = props;
+
     return (
     <Container>
         <ProfileHeader>
-           <ProfileImage src="/profile/men1.png"/>
-           Aniket Darekar
+           <ProfileImage src={selectedChat.profilePic}/>
+           {selectedChat.name}
         </ProfileHeader>
 
         <MessageContainer>

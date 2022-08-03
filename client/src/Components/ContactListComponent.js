@@ -57,6 +57,9 @@ border-bottom: 1px solid #f2f2f2;
 background: white;
 cursor: pointer;
 padding: 15px 12px;
+:hover{
+    background: #ebebeb;
+}
 `;
 
 const ProfileIcon = styled(ProfileImage)`
@@ -94,20 +97,22 @@ white-space: nowrap;
 
 const ContactComponent = (props) => {
 
-    const { userData } = props;
+    const { userData, setSelectedChat } = props;
 
-    return <ContactItem>
+    return (
+    <ContactItem onClick={() => setSelectedChat(userData)}>
         <ProfileIcon src={userData.profilePic}/>
         <ContactInfo>
           <ContactName>{userData.name}</ContactName>
           <MessageText>{userData?.lastText}</MessageText>
         </ContactInfo>
         <MessageTime>{userData?.lastTextTime}</MessageTime>
-        </ContactItem>;
-} 
+    </ContactItem>
+    );
+}; 
 
 
-const ContactListComponent = () => {
+const ContactListComponent = (props) => {
     return (
     <Container>
         <ProfileInfoDiv>
@@ -122,7 +127,7 @@ const ContactListComponent = () => {
         </SearchBox>
 
         {contactList.map((userData) => (
-        <ContactComponent userData={userData} />
+        <ContactComponent userData={userData} setSelectedChat={props.setSelectedChat}/>
         ))}
       
         </Container>
