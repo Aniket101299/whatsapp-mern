@@ -18,15 +18,16 @@
 // importing 
 import express from 'express';
 import mongoose from "mongoose";
-import cors from "cors";
+import configureExpressApp from "./config/index.js";
 
 // app config
 const app = express();
+configureExpressApp(app);
 const port = process.env.PORT || 5678;
 
 // middleware
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 
 // step 1 :- connect to mongodb
@@ -44,7 +45,7 @@ const connect = () => {
 app.listen(port, async function () {
     try {
       await connect();
-      console.log("listening on port 5678");
+      console.log(`listening on port ${port}`);
     } catch (e) {
       console.log("Error while connecting to DB ", e.message);
     }
