@@ -19,6 +19,7 @@
 import express from 'express';
 import mongoose from "mongoose";
 import configureExpressApp from "./config/index.js";
+import applyRoutes from "./routes/index.js";
 
 // app config
 const app = express();
@@ -46,6 +47,7 @@ app.listen(port, async function () {
     try {
       await connect();
       console.log(`listening on port ${port}`);
+      applyRoutes(app);
     } catch (e) {
       console.log("Error while connecting to DB ", e.message);
     }
