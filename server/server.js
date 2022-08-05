@@ -20,6 +20,7 @@ import express from 'express';
 import mongoose from "mongoose";
 import configureExpressApp from "./config/index.js";
 import applyRoutes from "./routes/index.js";
+import connect from './dbConnection/index.js';
 
 // app config
 const app = express();
@@ -33,14 +34,14 @@ app.use(express.json());
 
 // step 1 :- connect to mongodb
 // const connection_url = "mongodb+srv://aniket:Aniketwhatsapp@cluster0.k6cw6vn.mongodb.net/whatsappdb?retryWrites=true&w=majority";
-const connection_url = "mongodb://aniket:Aniketwhatsapp@ac-7kq4qzg-shard-00-00.k6cw6vn.mongodb.net:27017,ac-7kq4qzg-shard-00-01.k6cw6vn.mongodb.net:27017,ac-7kq4qzg-shard-00-02.k6cw6vn.mongodb.net:27017/?ssl=true&replicaSet=atlas-12w1zx-shard-0&authSource=admin&retryWrites=true&w=majority";
-const connect = () => {
-  return mongoose.connect(connection_url, {
-    // useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-};
+// const connection_url = "mongodb://aniket:Aniketwhatsapp@ac-7kq4qzg-shard-00-00.k6cw6vn.mongodb.net:27017,ac-7kq4qzg-shard-00-01.k6cw6vn.mongodb.net:27017,ac-7kq4qzg-shard-00-02.k6cw6vn.mongodb.net:27017/?ssl=true&replicaSet=atlas-12w1zx-shard-0&authSource=admin&retryWrites=true&w=majority";
+// const connect = () => {
+//   return mongoose.connect(connection_url, {
+//     // useCreateIndex: true,
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+// };
 
 
 app.listen(port, async function () {
