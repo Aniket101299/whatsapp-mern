@@ -32,5 +32,6 @@ userSchema.static({
     }
 });
 
+const UserModel = mongoose.model("wc-user", userSchema);
 
-export default mongoose.model("wc-user", userSchema);
+export default UserModel;
