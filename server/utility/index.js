@@ -1,7 +1,7 @@
 const sendResponse = (res, data, msg, success, code) => {
     const responseObj = {
         responseData: data,
-        message: message,
+        message: msg,
         success: success,
         responseCode: code, 
     };

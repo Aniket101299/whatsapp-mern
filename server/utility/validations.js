@@ -1,5 +1,5 @@
 import { sendError } from "./index.js";
-
+import * as yup from "yup";
 
 const validateCreateUser = async (req, res, next) => {
         const schema = yup.object().shape({
@@ -19,7 +19,7 @@ const validateLogin = async (req, res, next) => {
         await validate(schema, req.body, res, next);
     };
 
-const validateGetChannelList = async (req, res, next) => {
+const validateGetChannels = async (req, res, next) => {
         const schema = yup.object().shape({
             userId: yup.string().required(),
         });
@@ -33,12 +33,12 @@ const validateSearchUser = async (req, res, next) => {
         await validate(schema, req.query, res, next);
     };
 
-const validateCreateChannel = async (req, res, next) => {
+const validateAddChannel = async (req, res, next) => {
         const schema = yup.object().shape({
             channelUsers: yup.array().of(
                 yup.object().shape({
-                 name: yup.string().required(),
                  _id: yup.string().required(),
+                 name: yup.string().required(),
                  profilePic: yup.string()
                 })
             ).length(2).required(),
@@ -75,4 +75,4 @@ const validate = async (schema, reqData, res, next) => {
 
 
 
-export { validateCreateUser, validateLogin, validateGetChannelList, validateSearchUser, validateCreateChannel, validateAddMessage };
+export { validateCreateUser, validateLogin, validateGetChannels, validateSearchUser, validateAddChannel , validateAddMessage };

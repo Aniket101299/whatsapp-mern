@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const channelSchema = new mongoose.Schema({
+   addedOn: { type: Number, default: Date.now() },
    channelUsers: [
     {
         _id: { type: String, default: "" },
@@ -15,7 +16,6 @@ const channelSchema = new mongoose.Schema({
         addedOn: { type: Number, default: Date.now() },
     },
    ],
-   addedOn: { type: Number, default: Date.now() },
 });
 
 
