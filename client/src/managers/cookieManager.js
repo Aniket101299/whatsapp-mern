@@ -7,10 +7,12 @@ const setUserInfo = (userInfo) => {
 };
 
 const getUserInfo = () => {
-    cookies.get("userInfo");
+   return cookies.get("userInfo");
 };
 
-export default cookieManager = {
+const cookieManager = {
     setUserInfo,
     getUserInfo,
 };
+
+export default cookieManager;

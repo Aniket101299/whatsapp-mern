@@ -3,6 +3,7 @@ import styled from "styled-components";
 import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
 import App from "../../App.js";
+import cookieManager from "../../managers/cookieManager.js";
 
 const Container = styled.div`
 display: flex;
@@ -65,11 +66,6 @@ const LoginComponent = () => {
 
     const [userInfo, setUserInfo] = useState();
 
-    const handleResponseFromGoogle = (responseData) => {
-        console.log(responseData.profileObj);
-        setUserInfo(responseData.profileObj);
-    };
-
     useEffect(() => {
         const clientId = "131685924090-s0m8kppmpou2nsu1k7otvhc1itgh4ehh.apps.googleusercontent.com";
         function start() {
@@ -79,7 +75,22 @@ const LoginComponent = () => {
           });
         }
         gapi.load("client:auth2", start);
-      });
+      }, []);
+
+
+      useEffect(() => {
+        const userData = cookieManager.getUserInfo();
+        console.log("====", userData);
+        if(userData) setUserInfo(userData);
+      }, []);
+
+
+      const responseGoogle = (response) => {
+        console.log("====", response.profileObj);
+        setUserInfo(response.profileObj);
+        cookieManager.setUserInfo(response.profileObj);
+    };
+
 
     return (
 
@@ -101,8 +112,8 @@ const LoginComponent = () => {
               <GoogleLogin
     clientId="131685924090-s0m8kppmpou2nsu1k7otvhc1itgh4ehh.apps.googleusercontent.com"
     buttonText="Sign in with Google"
-    onSuccess={handleResponseFromGoogle}
-    onFailure={handleResponseFromGoogle}
+    onSuccess={responseGoogle}
+    onFailure={responseGoogle}
     cookiePolicy={'single_host_origin'}
   />,
                 </Instructions>
