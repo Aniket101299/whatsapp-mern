@@ -33,13 +33,14 @@ object-fit: contain;
 `;
 
 
-function App() {
+function App(props) {
 
+  const { userInfo } = props;
   const [selectedChat, setSelectedChat] = useState();
 
   return (
     <Container>
-        <ContactListComponent setSelectedChat={setSelectedChat}/>
+        <ContactListComponent setSelectedChat={setSelectedChat} profileImg={userInfo.imageUrl}/>
         {selectedChat ? (
         <ConversationComponent selectedChat={selectedChat}/>
         ) : (
