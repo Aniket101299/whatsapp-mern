@@ -114,7 +114,7 @@ const ContactComponent = (props) => {
 
 const ContactListComponent = (props) => {
   const {profileImg} = props;
-  console.log(profileImg);
+  
     return (
     <Container>
         <ProfileInfoDiv>
