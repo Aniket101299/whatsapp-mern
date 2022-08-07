@@ -5,6 +5,8 @@ import { gapi } from "gapi-script";
 import App from "../../App.js";
 import cookieManager from "../../managers/cookieManager.js";
 
+
+
 const Container = styled.div`
 display: flex;
 flex-direction: column;
@@ -85,8 +87,12 @@ const LoginComponent = () => {
       }, []);
 
 
-      const responseGoogle = (response) => {
-        console.log("====", response.profileObj);
+      const responseGoogle = async (response) => {
+        await httpManager.createUser({
+          email: response.profileObj.email,
+          name: response.profileObj.name,
+          profileImg: response.profileObj.imageUrl,
+        });
         setUserInfo(response.profileObj);
         cookieManager.setUserInfo(response.profileObj);
     };

@@ -42,7 +42,7 @@ const getChannels = async (req, res) => {
 const searchUser = async (req, res) => {
   const requestData = req.query;
   const isUserExist = await UserModel.findOneData({
-     phoneNumber: requestData.phone,
+     email: requestData.email,
   });
   if (!isUserExist) return sendError(res, {}, "No user found");
   sendResponse(res, isUserExist, "User found successfully", true, 200);
