@@ -3,9 +3,8 @@ import * as yup from "yup";
 
 const validateCreateUser = async (req, res, next) => {
         const schema = yup.object().shape({
-            phoneNumber: yup.number().required(),
             name: yup.string().required(),
-            password: yup.string().required(),
+            email: yup.string().required(),
             profilePic: yup.string(),
         });
         await validate(schema, req.body, res, next);
