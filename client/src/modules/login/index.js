@@ -4,7 +4,7 @@ import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
 import App from "../../App.js";
 import cookieManager from "../../managers/cookieManager.js";
-
+import httpManager from "../../managers/httpManager.js";
 
 
 const Container = styled.div`
