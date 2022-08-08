@@ -114,16 +114,19 @@ const ContactComponent = (props) => {
     const [searchResult, setSearchResult] = useState();
     const otherUser = userData.channelUsers.find(
       (userObj) => userObj.email !== userInfo.email
-    );
+    ) || userData;
+const lastMessage = userData.messages && userData.messages.length?
+ userData.messages[userData.messages.length-1]
+ : {};
 
     return (
-    <ContactItem onClick={() => setSelectedChat(otherUser)}>
+    <ContactItem onClick={() => setSelectedChat({ channelData: userData, otherUser })}>
         <ProfileIcon src={otherUser.profilePic}/>
         <ContactInfo>
           <ContactName>{otherUser.name}</ContactName>
-          <MessageText>{otherUser?.lastText}</MessageText>
+          <MessageText>{lastMessage?.text}</MessageText>
         </ContactInfo>
-        <MessageTime>{userData?.lastTextTime}</MessageTime>
+        <MessageTime>{new Date(lastMessage?.addedOn).getUTCDate()}</MessageTime>
     </ContactItem>
     );
 }; 

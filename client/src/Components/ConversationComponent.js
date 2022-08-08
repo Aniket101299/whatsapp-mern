@@ -75,13 +75,19 @@ const ConversationComponent = (props) => {
     const [pickerVisible, togglePicker] = useState(false);
     const [messageList, setMessageList] = useState([]);
 
+
+    useEffect(() => {
+      setMessageList(selectedChat.channelData.messages);
+    }, [selectedChat]);
+
+
     const onEmojiClick = (event, emojiObj) => {
         setText(text + emojiObj.emoji);
         togglePicker(false);
     };
 
     const onEnterPress = async (event) => {
-        let channelId = "";
+        let channelId = selectedChat.channelData._id;
         if(event.key === "Enter") {
 
             if(!messageList || !messageList.length) {
@@ -92,14 +98,13 @@ const ConversationComponent = (props) => {
                         profilePic: userInfo.imageUrl,
                       },
                     {
-                      email: selectedChat.email,
-                      name: selectedChat.name,
-                      profilePic: selectedChat.profilePic,
+                      email: selectedChat.otherUser.email,
+                      name: selectedChat.otherUser.name,
+                      profilePic: selectedChat.otherUser.profilePic,
                     },
                 ];
                 const channelResponse = await httpManager.createChannel({channelUsers});
                 channelId = channelResponse.data.responseData._id;
-                refreshContactList();
             }
 
             const messages = [...messageList];
@@ -110,25 +115,26 @@ const ConversationComponent = (props) => {
             };
             const messageResponse = await httpManager.sendMessage({
                 channelId,
-                msgReqData
+                messages: msgReqData,
             });
             messages.push(msgReqData);
             setMessageList(messages);
             setText("");
+            refreshContactList();
         }
     };
 
     return (
     <Container>
         <ProfileHeader>
-           <ProfileImage src={selectedChat.profilePic}/>
-           {selectedChat.name}
+           <ProfileImage src={selectedChat.otherUser.profilePic}/>
+           {selectedChat.otherUser.name}
         </ProfileHeader>
 
         <MessageContainer>
-            {messageList.map((messageData) => (
-               <MessageDiv isYours={messageData.senderID === 0}>
-                  <Message isYours={messageData.senderID === 0}>
+            {messageList?.map((messageData) => (
+               <MessageDiv isYours={messageData.senderEmail === userInfo.email}>
+                  <Message isYours={messageData.senderEmail === 0}>
                     {messageData.text}
                   </Message>
                </MessageDiv>
