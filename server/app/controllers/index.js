@@ -26,7 +26,31 @@ const loginUser = async (req, res) => {
 };
 
 const createChannel = async (req, res) => {
- const channelModel = new ChannelModel(req.body);
+  const channelUsers = req.body.channelUsers;
+  const firstUser = channelUsers[0];
+  const secondUser = channelUsers[1];
+  let isChannelAlreadyExist = false;
+  let channelModel;
+
+  const channelList = await ChannelModel.findData({
+    "channelUsers.email": firstUser.email,
+  });
+
+  if (channelList && channelList.length) {
+    channelList.forEach((channel) => {
+      isChannelAlreadyExist = channel.channelUsers.find(
+        (user) => user.email === secondUser.email
+      );
+      if (isChannelAlreadyExist)
+        channelModel = channel
+    });
+  }
+
+  if (isChannelAlreadyExist)
+    return sendResponse(res, channelModel, "Channel created successfully", true, 200);
+
+
+ channelModel = new ChannelModel(req.body);
  await channelModel.saveData();
  sendResponse(res, channelModel, "Channel created successfully", true, 200);
 };
@@ -34,7 +58,7 @@ const createChannel = async (req, res) => {
 const getChannels = async (req, res) => {
   const requestData = req.query;
   const channelList = await ChannelModel.findData({
-    "channelUsers._id": requestData.userId,
+    "channelUsers.email": requestData.email,
   });
   sendResponse(res, channelList, "Channel List fetched successfully", true, 200);
 };

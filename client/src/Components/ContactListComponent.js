@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { contactList } from "../mockData";
 import utility from "../utility/index.js";
@@ -110,16 +110,18 @@ const SearchResults = styled.div`
 
 
 const ContactComponent = (props) => {
-
-    const { userData, setSelectedChat } = props;
-    // const [searchResult, setSearchResult] = useState();
+    const { userData, setSelectedChat, userInfo } = props;
+    const [searchResult, setSearchResult] = useState();
+    const otherUser = userData.channelUsers.find(
+      (userObj) => userObj.email !== userInfo.email
+    );
 
     return (
-    <ContactItem onClick={() => setSelectedChat(userData)}>
-        <ProfileIcon src={userData.profilePic}/>
+    <ContactItem onClick={() => setSelectedChat(otherUser)}>
+        <ProfileIcon src={otherUser.profilePic}/>
         <ContactInfo>
-          <ContactName>{userData.name}</ContactName>
-          <MessageText>{userData?.lastText}</MessageText>
+          <ContactName>{otherUser.name}</ContactName>
+          <MessageText>{otherUser?.lastText}</MessageText>
         </ContactInfo>
         <MessageTime>{userData?.lastTextTime}</MessageTime>
     </ContactItem>
@@ -128,9 +130,24 @@ const ContactComponent = (props) => {
 
 
 const ContactListComponent = (props) => {
-  const {profileImg} = props;
+  const { userInfo, refreshContactList } = props;
   const [searchString, setSearchString] = useState(""); 
   const [searchResult, setSearchResult] = useState("");
+const [contactList, setContactList] = useState([]);
+
+
+const refreshContacts = async () => {
+  const contactListData = await httpManager.getChannelList(userInfo.email);
+  setContactList(contactListData.data.responseData);
+  setSearchString();
+   setSearchResult();
+}
+
+
+  useEffect(() => {
+    refreshContacts();
+  }, [refreshContactList]);
+
 
   const onSearchTextChanged = async (searchText) => {
     setSearchString(searchText);
@@ -143,7 +160,7 @@ const ContactListComponent = (props) => {
     return (
     <Container>
         <ProfileInfoDiv>
-            <ProfileImage src={profileImg || "/profile/men1.png"}/>
+            <ProfileImage src={userInfo.imageUrl || "/profile/men1.png"}/>
         </ProfileInfoDiv>
 
         <SearchBox>
@@ -158,12 +175,15 @@ const ContactListComponent = (props) => {
 
         {searchResult && (
         <SearchResults>
-          <ContactComponent userData={searchResult} setChat={props.setChat} />
+          <ContactComponent userData={searchResult} setSelectedChat={props.setSelectedChat} />
         </SearchResults>
       )}
 
         {contactList.map((userData) => (
-        <ContactComponent userData={userData} setSelectedChat={props.setSelectedChat}/>
+        <ContactComponent userData={userData} 
+        setSelectedChat={props.setSelectedChat}
+        userInfo={userInfo}
+        />
         ))}
       
         </Container>

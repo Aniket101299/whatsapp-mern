@@ -1,28 +1,29 @@
 import mongoose from "mongoose";
 
 const channelSchema = new mongoose.Schema({
-   addedOn: { type: Number, default: Date.now() },
    channelUsers: [
     {
-        _id: { type: String, default: "" },
+        email: { type: String, default: "" },
         name: { type: String, default: "" },
         profilePic: { type: String, default: "" },
     },
    ],
    messaegs: [
     {
-        senderID: { type: String, default: "" },
+        senderEmail: { type: String, default: "" },
+        messageType: { type: String, default: "TEXT"},
         message: { type: String, default: "" },
         addedOn: { type: Number, default: Date.now() },
     },
    ],
+   addedOn: { type: Number, default: Date.now() },
 });
 
 
 channelSchema.method({
     saveData: async function () {
         return this.save();
-    }
+    },
 });
 
 

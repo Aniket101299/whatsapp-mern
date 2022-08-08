@@ -20,7 +20,7 @@ const validateLogin = async (req, res, next) => {
 
 const validateGetChannels = async (req, res, next) => {
         const schema = yup.object().shape({
-            userId: yup.string().required(),
+            email: yup.string().required(),
         });
         await validate(schema, req.query, res, next);
     };
@@ -36,7 +36,7 @@ const validateAddChannel = async (req, res, next) => {
         const schema = yup.object().shape({
             channelUsers: yup.array().of(
                 yup.object().shape({
-                 _id: yup.string().required(),
+                 email: yup.string().required(),
                  name: yup.string().required(),
                  profilePic: yup.string()
                 })
@@ -49,8 +49,8 @@ const validateAddMessage = async (req, res, next) => {
         const schema = yup.object().shape({
          channelId: yup.string().required(),
          messages: yup.object().shape({
-            senderID: yup.string().required(),
-            message: yup.string().required(), 
+            senderEmail: yup.string().required(),
+            text: yup.string().required(), 
          }), 
         });
         await validate(schema, req.body, res, next);

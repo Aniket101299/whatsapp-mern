@@ -37,12 +37,17 @@ function App(props) {
 
   const { userInfo } = props;
   const [selectedChat, setSelectedChat] = useState();
+const [refreshContactList, toggleRefreshContactList] = useState(false);
 
   return (
     <Container>
-        <ContactListComponent setSelectedChat={setSelectedChat} profileImg={userInfo.imageUrl}/>
+        <ContactListComponent setSelectedChat={setSelectedChat} userInfo={userInfo}
+        refreshContactList={refreshContactList}
+        />
         {selectedChat ? (
-        <ConversationComponent selectedChat={selectedChat}/>
+        <ConversationComponent selectedChat={selectedChat} userInfo={userInfo} 
+        refreshContactList={() => toggleRefreshContactList(!refreshContactList)}
+        />
         ) : (
         <Placeholder>
           <ChatPlaceholder src="/welcome-placeholder.jpeg"/>

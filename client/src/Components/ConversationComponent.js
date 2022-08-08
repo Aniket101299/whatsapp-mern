@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 import { SearchContainer, SearchInput } from "./ContactListComponent";
-import { messagesList } from "../mockData";
+// import { messagesList } from "../mockData";
+import httpManager from "../managers/httpManager";
 
 const Container = styled.div`
 display: flex;
@@ -69,26 +70,49 @@ border-radius: 4px;
 
 const ConversationComponent = (props) => {
 
-    const { selectedChat } = props;
+    const { selectedChat, userInfo, refreshContactList } = props;
     const [text, setText] = useState("");
     const [pickerVisible, togglePicker] = useState(false);
-    const [messageList, setMessageList] = useState(messagesList);
+    const [messageList, setMessageList] = useState([]);
 
     const onEmojiClick = (event, emojiObj) => {
         setText(text + emojiObj.emoji);
         togglePicker(false);
     };
 
-    const onEnterPress = (event) => {
+    const onEnterPress = async (event) => {
+        let channelId = "";
         if(event.key === "Enter") {
+
+            if(!messageList || !messageList.length) {
+                const channelUsers = [
+                    {
+                        email: userInfo.email,
+                        name: userInfo.name,
+                        profilePic: userInfo.imageUrl,
+                      },
+                    {
+                      email: selectedChat.email,
+                      name: selectedChat.name,
+                      profilePic: selectedChat.profilePic,
+                    },
+                ];
+                const channelResponse = await httpManager.createChannel({channelUsers});
+                channelId = channelResponse.data.responseData._id;
+                refreshContactList();
+            }
+
             const messages = [...messageList];
-            messages.push({
-                id: 0,
-                messageType: "TEXT",
+            const msgReqData = {
                 text,
-                senderID: 0,
-                addedOn: "12:09 PM",
+                senderEmail: userInfo.email,
+                addedOn: new Date().getTime(),
+            };
+            const messageResponse = await httpManager.sendMessage({
+                channelId,
+                msgReqData
             });
+            messages.push(msgReqData);
             setMessageList(messages);
             setText("");
         }
